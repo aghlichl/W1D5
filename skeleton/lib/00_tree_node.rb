@@ -6,26 +6,31 @@ class PolyTreeNode
     @children = []
   end
 
-  
-  def parent=(node)
-    if self.parent.nil?
-        @parent = node 
-        if node.nil?
-        else
-            unless node.children.include?(self)
-                node.children.push(self)
-            end
-        end 
-    else
-        (self.parent).children.delete(self)
-            @parent = node 
-            if node.nil?
-            else
-                unless node.children.include?(self)
-                    node.children.push(self)
-                end
-            end 
+  def parent_assignment_helper(parent_node)
+    @parent = parent_node 
+    if parent_node #Checking if Root
+      unless parent_node.children.include?(self)
+        parent_node.children.push(self)
+      end
     end
+  end 
+  
+  def parent=(parent_node)
+    if @parent
+      (self.parent).children.delete(self) #OLD DAD DOESNT LOVE YOU
+      parent_assignment_helper(parent_node) #ADD NEW DAD
+    else
+      parent_assignment_helper(parent_node)
+    end
+  end
+
+  def add_child(child_node)
+    child_node.parent = self
+    @children.push(child_node) unless @children.include?(child_node)
+  end 
+
+  def remove_child(child_node)
+    @children.delete(child_node)
   end 
 
 end
