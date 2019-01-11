@@ -25,12 +25,22 @@ class PolyTreeNode
   end
 
   def add_child(child_node)
-    child_node.parent = self
-    @children.push(child_node) unless @children.include?(child_node)
+    if child_node
+      child_node.parent = self
+      @children.push(child_node) unless @children.include?(child_node)
+    end
   end 
 
   def remove_child(child_node)
-    @children.delete(child_node)
+    if self.children.include?(child_node)
+      if child_node
+        child_node.parent=nil
+        @children.delete(child_node)
+      end 
+    else 
+      raise "This is not my child"
+    end 
+    
   end 
 
 end
