@@ -1,3 +1,4 @@
+require 'byebug'
 class PolyTreeNode
   attr_accessor :value, :parent, :children
   def initialize(value)
@@ -42,5 +43,31 @@ class PolyTreeNode
     end 
     
   end 
+
+  def dfs(target_value)
+    if self.value == target_value
+      return self 
+    end
+
+    self.children.each do |child|
+      result = child.dfs(target_value)
+      return result if result
+    end
+    nil 
+  end 
+
+  def bfs(target_value)
+    queue = []
+    queue.push(self)
+
+    until queue.empty?
+      current_node = queue.shift
+      return current_node if current_node.value == target_value
+      current_node.children.each do |child|
+        queue.push(child)
+      end
+    end
+    nil
+  end
 
 end
